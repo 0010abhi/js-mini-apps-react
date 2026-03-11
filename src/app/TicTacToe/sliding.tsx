@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const SlidingTicTacToe = () => {
   const [squares, setSquares] = useState(Array(9).fill(null));
   const [xIsNext, setXIsNext] = useState(true);
-  const [selectedSquare, setSelectedSquare] = useState(null);
+  const [selectedSquare, setSelectedSquare] = useState<number | null>(null);
 
   const currentPlayer = xIsNext ? 'X' : 'O';
   const winner = calculateWinner(squares);
@@ -11,13 +11,13 @@ const SlidingTicTacToe = () => {
   const isSlidingPhase = playerPieces === 3;
 
   // Mapping of adjacent indices for a 3x3 grid
-  const adjacents = {
+  const adjacents: { [key: number]: number[] } = {
     0: [1, 3, 4], 1: [0, 2, 3, 4, 5], 2: [1, 4, 5],
     3: [0, 1, 4, 6, 7], 4: [0, 1, 2, 3, 5, 6, 7, 8], 5: [1, 2, 4, 7, 8],
     6: [3, 4, 7], 7: [3, 4, 5, 6, 8], 8: [4, 5, 7],
   };
 
-  const handleClick = (i) => {
+  const handleClick = (i: number) => {
     if (winner) return;
     const newSquares = [...squares];
 
@@ -36,7 +36,7 @@ const SlidingTicTacToe = () => {
     } else {
       if (i === selectedSquare) {
         setSelectedSquare(null); // Deselect if clicked again
-      } else if (!squares[i] && adjacents[selectedSquare].includes(i)) {
+      } else if (!squares[i] && selectedSquare !== null && adjacents[selectedSquare].includes(i)) {
         newSquares[selectedSquare] = null;
         newSquares[i] = currentPlayer;
         setSquares(newSquares);

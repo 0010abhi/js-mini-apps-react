@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 interface SlidingTicTacToeProps {
   n?: number; // grid size, default 3

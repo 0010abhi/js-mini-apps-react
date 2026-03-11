@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { useTheme } from "../../context/ThemeContext";
 
 const ITEMS_PER_PAGE = 6;
 
@@ -18,7 +17,6 @@ export default function JobBoard() {
     const [allIds, setAllIds] = useState<number[]>([]);
     const [jobDetails, setJobDetails] = useState<JobDetail[]>([]);
     const [loading, setLoading] = useState(false);
-    const { theme } = useTheme();
 
     // Centralized Fetcher
     const fetchJobs = async (ids: number[], currentOffset: number) => {

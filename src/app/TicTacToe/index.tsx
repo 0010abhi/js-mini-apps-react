@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import "./styles.css";
-import SlidingTicTacToe from "./sliding-general";
 
 export default function TicTacToe() {
   let [playerTurn, setPlayerTurn] = useState("First");
