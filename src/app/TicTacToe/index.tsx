@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import "./styles.css";
+import SlidingTicTacToe from "./sliding-general";
 
 export default function TicTacToe() {
   let [playerTurn, setPlayerTurn] = useState("First");
@@ -23,24 +24,23 @@ export default function TicTacToe() {
   }, [player1, player2])
 
   function checkWinner() {
-    const player1Loc = [...player1].sort((a,b) => a-b);
-    const player2Loc = [...player2].sort((a,b) => a-b);
+    const player1Set = new Set(player1);
+    const player2Set = new Set(player2);
 
-    console.log('>>>1', player1Loc);
-    console.log('>>>2', player2Loc);
-
-    winningCombo.forEach((value) => {
-      if(value.toString() === player1Loc.toString()) {
+    for (const combo of winningCombo) {
+      if (combo.every((num) => player1Set.has(num))) {
         setWinner('First');
+        return;
       }
-      if(value.toString() === player2Loc.toString()) {
+      if (combo.every((num) => player2Set.has(num))) {
         setWinner('Second');
+        return;
       }
-    })
+    }
   }
 
   function handleBoardClick(value: number) {
-    if(winner || player1.indexOf(value) > -1 || player2.indexOf(value) > -1) {
+    if (winner || player1.indexOf(value) > -1 || player2.indexOf(value) > -1) {
       return;
     }
     setCount((count) => {
@@ -64,25 +64,28 @@ export default function TicTacToe() {
   }
 
   return (
-    <div>
-      <div className="player-info">{winner ? `Player ${winner} wins` : `Player ${playerTurn} turn`}</div>
-      <div className="board">
-        {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((value) => {
-          return (
-            <div
-              key={value}
-              className="board-section"
-              onClick={() => {
-                handleBoardClick(value);
-              }}
-            >
-              <span>{player1.indexOf(value) > -1 ? "O" : ""}</span>
-              <span>{player2.indexOf(value) > -1 ? "X" : ""}</span>
-            </div>
-          );
-        })}
+    <>
+      <div>
+        <div className="player-info">{winner ? `Player ${winner} wins` : `Player ${playerTurn} turn`}</div>
+        <div className="board">
+          {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((value) => {
+            return (
+              <div
+                key={value}
+                className="board-section"
+                onClick={() => {
+                  handleBoardClick(value);
+                }}
+              >
+                <span>{player1.indexOf(value) > -1 ? "O" : ""}</span>
+                <span>{player2.indexOf(value) > -1 ? "X" : ""}</span>
+              </div>
+            );
+          })}
+        </div>
+        <button onClick={reset}>Reset</button>
       </div>
-      <button onClick={reset}>Reset</button>
-    </div>
+      
+    </>
   );
 }

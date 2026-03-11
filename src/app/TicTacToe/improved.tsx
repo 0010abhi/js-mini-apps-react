@@ -1,4 +1,5 @@
 import { useState } from "react";
+import SlidingTicTacToe from "./sliding-general";
 
 const WINNING_COMBOS = [
     [0, 1, 2], [3, 4, 5], [6, 7, 8], // Rows
@@ -40,17 +41,28 @@ export default function App() {
     }
 
     return (
-        <div className="game-container">
-            <div className="status">
-                {winner ? `Winner: ${winner}` : isDraw ? "Draw!" : `Next Player: ${xIsNext ? "O" : "X"}`}
+        <div className="w-full h-full flex flex-col items-center justify-start gap-6 p-4">
+            <div className="text-2xl font-bold text-center">
+                <div className="text-blue-600 dark:text-blue-400 mb-4">Tic Tac Toe</div>
+                <div className={`text-xl ${
+                    winner 
+                        ? 'text-green-600 dark:text-green-400' 
+                        : isDraw 
+                        ? 'text-orange-600 dark:text-orange-400'
+                        : 'text-gray-700 dark:text-gray-300'
+                }`}>
+                    {winner ? `🎉 Winner: ${winner}` : isDraw ? "🤝 Draw!" : `Next Player: ${xIsNext ? "O" : "X"}`}
+                </div>
             </div>
 
-            <div className="board" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 100px)' }}>
+            <div className="grid grid-cols-3 gap-2 bg-gray-300 dark:bg-gray-600 p-2 rounded-lg">
                 {board.map((value, i) => (
                     <button
                         key={i}
-                        className="square"
-                        style={{ height: '100px', fontSize: '2rem' }}
+                        className="w-20 h-20 bg-white dark:bg-gray-800 border-2 border-gray-400 dark:border-gray-500 rounded font-bold text-2xl hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200 flex items-center justify-center"
+                        style={{
+                            color: value === "X" ? "#ef4444" : value === "O" ? "#3b82f6" : "transparent",
+                        }}
                         onClick={() => handleBoardClick(i)}
                     >
                         {value}
@@ -58,7 +70,17 @@ export default function App() {
                 ))}
             </div>
 
-            <button onClick={reset} style={{ marginTop: '20px' }}>Reset Game</button>
+            <button 
+                onClick={reset}
+                className="px-6 py-2 bg-blue-600 dark:bg-blue-500 text-white rounded-lg font-medium hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors duration-200"
+            >
+                Reset Game
+            </button>
+
+            {/* Sliding Tic Tac Toe Section */}
+            <div className="w-full border-t-2 border-gray-300 dark:border-gray-600 pt-6 mt-6">
+                <SlidingTicTacToe />
+            </div>
         </div>
     );
 }
